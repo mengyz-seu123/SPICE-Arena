@@ -1,0 +1,31 @@
+[project]
+name = "spice-arena"
+version = "0.6.0"
+description = "Circuit design agents with SPICE simulation and metric evaluation"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "PyYAML>=6,<7",
+  "requests>=2.32,<3",
+]
+
+[project.scripts]
+arena = "analog_arena.cli:main"
+analog-arena = "analog_arena.cli:main"
+arena-trace = "analog_trace.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["simulation/src", "agent/src", "rl/src"]
+include = ["analog_arena*", "analog_trace*", "analog_rl*"]
+
+[tool.setuptools.package-dir]
+analog_arena = "simulation/src/analog_arena"
+analog_trace = "agent/src/analog_trace"
+analog_rl = "rl/src/analog_rl"
+
+[tool.setuptools.package-data]
+analog_arena = ["simulation/circuits/fixtures/*.spice.tmpl"]

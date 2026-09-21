@@ -1,0 +1,22 @@
+evaluator:
+  profile: sky130-generic
+  circuit: bandgap-reference
+  analyses:
+  - dc
+  corners:
+  - TT
+  timeout_s: 180
+constraints:
+  vref_min_v:
+    min: 0.8
+  vref_max_v:
+    max: 1.5
+  vref_25c_v:
+    min: 0.8
+    max: 1.5
+  temp_span_mv:
+    max: 250
+  tempco_ppm_per_c:
+    max: 1500
+  supply_current_ua:
+    max: 100

@@ -1,0 +1,2 @@
+# Circuit simulation
+Use the provided tools to inspect the task contract, prepare a complete DUT and evaluate it with ngspice. Preserve port order, device limits and units. The evaluator supplies sources, analysis and measurement fixtures. Inspect validity and diagnostics before changing the candidate. Report only measurements returned by tools; never combine metrics from different candidates. A syntax check is not electrical validation.

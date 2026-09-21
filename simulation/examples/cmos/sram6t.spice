@@ -1,0 +1,8 @@
+.subckt DUT Q QB BL BLB WL VDD VSS
+XP1 Q QB VDD VDD sky130_fd_pr__pfet_01v8 W=0.84 L=0.15
+XN1 Q QB VSS VSS sky130_fd_pr__nfet_01v8 W=0.42 L=0.15
+XP2 QB Q VDD VDD sky130_fd_pr__pfet_01v8 W=0.84 L=0.15
+XN2 QB Q VSS VSS sky130_fd_pr__nfet_01v8 W=0.42 L=0.15
+XA1 Q WL BL VSS sky130_fd_pr__nfet_01v8 W=0.42 L=0.15
+XA2 QB WL BLB VSS sky130_fd_pr__nfet_01v8 W=0.42 L=0.15
+.ends DUT

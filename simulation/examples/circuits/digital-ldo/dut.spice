@@ -1,0 +1,6 @@
+.subckt DUT VIN VSS EN0 EN1 EN2 EN3 VOUT
+XP0 VOUT EN0 VIN VIN sky130_fd_pr__pfet_01v8 W=5 L=0.5 M=4
+XP1 VOUT EN1 VIN VIN sky130_fd_pr__pfet_01v8 W=5 L=0.5 M=6
+XP2 VOUT EN2 VIN VIN sky130_fd_pr__pfet_01v8 W=5 L=0.5 M=8
+XP3 VOUT EN3 VIN VIN sky130_fd_pr__pfet_01v8 W=5 L=0.5 M=12
+.ends DUT

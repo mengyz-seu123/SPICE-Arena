@@ -1,0 +1,19 @@
+evaluator:
+  profile: sky130-generic
+  circuit: signal-generator-ring
+  analyses:
+  - transient
+  corners:
+  - TT
+  timeout_s: 180
+constraints:
+  frequency_mhz:
+    min: 1
+  period_stability_pct:
+    max: 5
+  vout_high_v:
+    min: 1.4
+  vout_low_v:
+    max: 0.4
+  power_mw:
+    max: 2.0

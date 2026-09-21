@@ -1,0 +1,15 @@
+* Trusted fixture: fixed-common-mode comparator transient.
+.lib {{PDK_LIB}} {{CORNER}}
+{{DUT}}
+VSUP VDD 0 1.8
+VVN VINN 0 0.9
+VVP VINP 0 PWL(0 0.88 2u 0.88 2.01u 0.92 5u 0.92 5.01u 0.88 8u 0.88)
+XDUT VDD 0 VINP VINN VOUT DUT
+CLOAD VOUT 0 50f
+.tran 2n 8u
+.measure tran out_high_v AVG v(VOUT) FROM=1u TO=1.8u
+.measure tran out_low_v AVG v(VOUT) FROM=3u TO=4.5u
+.measure tran delay_raw_s TRIG v(VINP) VAL=0.9 RISE=1 TARG v(VOUT) VAL=0.9 FALL=1
+.measure tran decision_delay_ns PARAM='delay_raw_s*1e9'
+.measure tran power_mw AVG par('-v(VDD)*i(VSUP)*1e3') FROM=1u TO=7u
+.end

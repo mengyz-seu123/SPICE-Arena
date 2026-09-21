@@ -1,0 +1,9 @@
+.subckt INV A Y VDD VSS
+XN Y A VSS VSS sky130_fd_pr__nfet_01v8 W=0.84 L=0.15 M=1
+XP Y A VDD VDD sky130_fd_pr__pfet_01v8 W=1.68 L=0.15 M=1
+.ends INV
+.subckt DUT VDD VSS A Y
+X1 A N1 VDD VSS INV
+X2 N1 N2 VDD VSS INV
+X3 N2 Y VDD VSS INV
+.ends DUT

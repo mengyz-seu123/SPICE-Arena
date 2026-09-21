@@ -1,0 +1,5 @@
+.subckt DUT VDD VSS E1 E8 VREF
+XQ1 VSS VSS E1 sky130_fd_pr__pnp_05v5_W0p68L0p68 M=1
+XQ8 VSS VSS E8 sky130_fd_pr__pnp_05v5_W0p68L0p68 M=8
+RLOAD VREF VSS 10Meg
+.ends DUT

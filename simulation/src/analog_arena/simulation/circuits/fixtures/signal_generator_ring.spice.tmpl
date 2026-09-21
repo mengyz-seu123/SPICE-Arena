@@ -1,0 +1,19 @@
+* Trusted fixture: five-stage ring oscillator.
+.lib {{PDK_LIB}} {{CORNER}}
+{{DUT}}
+VSUP VDD 0 1.8
+XDUT VDD 0 OUT DUT
+CLOAD OUT 0 10f
+.ic v(OUT)=0.1
+.tran 1p 20n UIC
+.measure tran period_span_s TRIG v(OUT) VAL=0.9 RISE=8 TARG v(OUT) VAL=0.9 RISE=18
+.measure tran period_early_s TRIG v(OUT) VAL=0.9 RISE=8 TARG v(OUT) VAL=0.9 RISE=9
+.measure tran period_late_s TRIG v(OUT) VAL=0.9 RISE=17 TARG v(OUT) VAL=0.9 RISE=18
+.measure tran period_s PARAM='period_span_s/10'
+.measure tran period_ns PARAM='period_s*1e9'
+.measure tran frequency_mhz PARAM='1e-6/period_s'
+.measure tran period_stability_pct PARAM='abs(period_late_s-period_early_s)/period_s*100'
+.measure tran vout_low_v MIN v(OUT) FROM=5n TO=20n
+.measure tran vout_high_v MAX v(OUT) FROM=5n TO=20n
+.measure tran power_mw AVG par('-v(VDD)*i(VSUP)*1e3') FROM=5n TO=20n
+.end

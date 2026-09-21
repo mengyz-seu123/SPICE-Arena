@@ -1,0 +1,19 @@
+evaluator:
+  profile: sky130-generic
+  circuit: dac3
+  analyses:
+  - transient
+  corners:
+  - TT
+  timeout_s: 180
+constraints:
+  max_dnl_lsb:
+    max: 1.0
+  max_inl_lsb:
+    max: 1.5
+  min_code_step_v:
+    min: 0.15
+  output_span_v:
+    min: 1.6
+  settling_time_ns:
+    max: 100.0

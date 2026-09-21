@@ -1,0 +1,17 @@
+* 1.8 V to approximately 1.2 V analog LDO; external VREF = 0.6 V.
+.subckt DUT VIN VSS VREF VOUT
+* Resistor-fed PMOS diode and tail-current mirror.
+RBIAS PBIAS VSS 200k
+XPBIAS PBIAS PBIAS VIN VIN sky130_fd_pr__pfet_01v8 W=2 L=1 M=1
+XPTAIL TAIL PBIAS VIN VIN sky130_fd_pr__pfet_01v8 W=2 L=1 M=2
+* PMOS differential pair and NMOS mirror load drive the pass gate.
+XPFB ND VFB TAIL VIN sky130_fd_pr__pfet_01v8 W=5 L=1 M=2
+XPREF GATE VREF TAIL VIN sky130_fd_pr__pfet_01v8 W=5 L=1 M=2
+XNMIR ND ND VSS VSS sky130_fd_pr__nfet_01v8 W=2 L=1 M=1
+XNOUT GATE ND VSS VSS sky130_fd_pr__nfet_01v8 W=2 L=1 M=1
+XPPASS VOUT GATE VIN VIN sky130_fd_pr__pfet_01v8 W=10 L=0.5 M=2
+RFBTOP VOUT VFB 200k
+RFBBOT VFB VSS 200k
+* Miller compensation between the pass gate and regulated output.
+CCOMP GATE VOUT 2p
+.ends DUT

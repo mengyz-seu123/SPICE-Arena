@@ -1,0 +1,23 @@
+* Trusted digital-control scaffold around an Agent-authored PMOS pass array.
+.lib {{PDK_LIB}} {{CORNER}}
+{{DUT}}
+VIN_SRC VIN 0 1.8
+BEN0 EN0 0 V=0.9*(1+tanh((v(VOUT)-1.22)/0.01))
+BEN1 EN1 0 V=0.9*(1+tanh((v(VOUT)-1.20)/0.01))
+BEN2 EN2 0 V=0.9*(1+tanh((v(VOUT)-1.18)/0.01))
+BEN3 EN3 0 V=0.9*(1+tanh((v(VOUT)-1.16)/0.01))
+XDUT VIN 0 EN0 EN1 EN2 EN3 VOUT DUT
+COUT VOUT 0 200p
+RLOAD VOUT 0 20k
+ILOAD VOUT 0 PULSE(0 50u 4u 20n 20n 3u 20u)
+.tran 5n 12u UIC
+.measure tran vout_light_v AVG v(VOUT) FROM=2u TO=3.5u
+.measure tran vout_heavy_v AVG v(VOUT) FROM=6u TO=6.8u
+.measure tran input_current_ua AVG par('-i(VIN_SRC)*1e6') FROM=2u TO=3.5u
+.control
+set wr_singlescale
+run
+wrdata ldo_wave.dat v(VOUT)
+quit
+.endc
+.end

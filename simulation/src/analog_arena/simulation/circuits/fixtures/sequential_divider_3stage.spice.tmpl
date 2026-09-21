@@ -1,0 +1,23 @@
+* Trusted fixture: three cascaded TFFs, outputs divide by 2/4/8.
+.lib {{PDK_LIB}} {{CORNER}}
+{{DUT}}
+VSUP VDD 0 1.8
+VCLK CLK 0 PULSE(0 1.8 1n 50p 50p 0.95n 2n)
+XDUT VDD 0 CLK Q1 Q2 Q3 DUT
+CQ1 Q1 0 10f
+CQ2 Q2 0 10f
+CQ3 Q3 0 20f
+.ic v(Q1)=0 v(Q2)=0 v(Q3)=0
+.tran 2p 80n UIC
+.measure tran q1_period_early_s TRIG v(Q1) VAL=0.9 RISE=3 TARG v(Q1) VAL=0.9 RISE=4
+.measure tran q1_period_late_s TRIG v(Q1) VAL=0.9 RISE=15 TARG v(Q1) VAL=0.9 RISE=16
+.measure tran q2_period_early_s TRIG v(Q2) VAL=0.9 RISE=2 TARG v(Q2) VAL=0.9 RISE=3
+.measure tran q2_period_late_s TRIG v(Q2) VAL=0.9 RISE=7 TARG v(Q2) VAL=0.9 RISE=8
+.measure tran q3_period_early_s TRIG v(Q3) VAL=0.9 RISE=2 TARG v(Q3) VAL=0.9 RISE=3
+.measure tran q3_period_late_s TRIG v(Q3) VAL=0.9 RISE=3 TARG v(Q3) VAL=0.9 RISE=4
+.measure tran divide2_ratio PARAM='0.5*(q1_period_early_s+q1_period_late_s)/2e-9'
+.measure tran divide4_ratio PARAM='0.5*(q2_period_early_s+q2_period_late_s)/2e-9'
+.measure tran divide8_ratio PARAM='0.5*(q3_period_early_s+q3_period_late_s)/2e-9'
+.measure tran q3_high_v MAX v(Q3) FROM=20n TO=80n
+.measure tran q3_low_v MIN v(Q3) FROM=20n TO=80n
+.end

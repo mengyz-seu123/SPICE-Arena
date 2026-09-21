@@ -1,0 +1,9 @@
+.subckt OTA VDD GND VINP VINN VOUT IBIAS
+* TOPOLOGY STARTING POINT ONLY: fill every W/L/M; you may add/remove devices or change connections.
+XP1 N1 VINP NT VDD sky130_fd_pr__pfet_01v8 W=<W> L=<L> M=<M>
+XP2 VOUT VINN NT VDD sky130_fd_pr__pfet_01v8 W=<W> L=<L> M=<M>
+XN1 N1 N1 GND GND sky130_fd_pr__nfet_01v8 W=<W> L=<L> M=<M>
+XN2 VOUT N1 GND GND sky130_fd_pr__nfet_01v8 W=<W> L=<L> M=<M>
+XPT NT IBIAS VDD VDD sky130_fd_pr__pfet_01v8 W=<W> L=<L> M=<M>
+XPR IBIAS IBIAS VDD VDD sky130_fd_pr__pfet_01v8 W=<W> L=<L> M=<M>
+.ends OTA

@@ -1,0 +1,17 @@
+* Trusted fixture: 1.8 V input domain to 3.3 V output domain.
+.lib {{PDK_LIB}} {{CORNER}}
+{{DUT}}
+VDDL_SRC VDDL 0 1.8
+VDDH_SRC VDDH 0 3.3
+VIN IN 0 PULSE(0 1.8 2n 100p 100p 8n 16n)
+XDUT VDDL VDDH 0 IN OUT DUT
+CLOAD OUT 0 50f
+.tran 5p 36n
+.measure tran rise_raw_s TRIG v(IN) VAL=0.9 RISE=1 TARG v(OUT) VAL=1.65 RISE=1
+.measure tran fall_raw_s TRIG v(IN) VAL=0.9 FALL=1 TARG v(OUT) VAL=1.65 FALL=1
+.measure tran rise_delay_ns PARAM='rise_raw_s*1e9'
+.measure tran fall_delay_ns PARAM='fall_raw_s*1e9'
+.measure tran vout_high_v MAX v(OUT) FROM=4n TO=9n
+.measure tran vout_low_v MIN v(OUT) FROM=12n TO=17n
+.measure tran power_mw AVG par('-v(VDDH)*i(VDDH_SRC)*1e3-v(VDDL)*i(VDDL_SRC)*1e3') FROM=2n TO=34n
+.end

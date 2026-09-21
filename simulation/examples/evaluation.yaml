@@ -1,0 +1,12 @@
+evaluator:
+  profile: sky130-ota
+  analyses:
+  - op
+  - ac
+  - transient
+  corners:
+  - TT
+  timeout_s: 180
+constraints:
+  pm_deg:
+    min: 45

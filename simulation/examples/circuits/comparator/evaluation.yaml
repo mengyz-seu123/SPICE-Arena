@@ -1,0 +1,17 @@
+evaluator:
+  profile: sky130-generic
+  circuit: comparator
+  analyses:
+  - transient
+  corners:
+  - TT
+  timeout_s: 180
+constraints:
+  decision_delay_ns:
+    max: 100.0
+  out_high_v:
+    min: 1.6
+  out_low_v:
+    max: 0.2
+  power_mw:
+    max: 2.0

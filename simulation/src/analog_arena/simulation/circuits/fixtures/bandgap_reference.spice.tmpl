@@ -1,0 +1,21 @@
+* Trusted PNP bias and CTAT+PTAT summing fixture.
+.lib {{PDK_LIB}} {{CORNER}}
+{{DUT}}
+VSUP VDD 0 1.8
+IBIAS1 VDD E1 10u
+IBIAS8 VDD E8 10u
+XDUT VDD 0 E1 E8 VREF DUT
+BREF VREF 0 V=V(E1)+9.0*(V(E1)-V(E8))
+.dc TEMP -40 125 5
+.measure dc vref_25c_v FIND v(VREF) AT=25
+.measure dc vref_min_v MIN v(VREF)
+.measure dc vref_max_v MAX v(VREF)
+.measure dc temp_span_mv PARAM='(vref_max_v-vref_min_v)*1e3'
+.measure dc supply_current_ua AVG par('-i(VSUP)*1e6')
+.control
+set wr_singlescale
+run
+wrdata temperature_wave.dat v(E1) v(E8) v(VREF)
+quit
+.endc
+.end

@@ -1,0 +1,4 @@
+.subckt DUT IN OUT VDD VSS
+XP OUT IN VDD VDD sky130_fd_pr__pfet_01v8 W=1.20 L=0.15
+XN OUT IN VSS VSS sky130_fd_pr__nfet_01v8 W=0.80 L=0.15
+.ends DUT

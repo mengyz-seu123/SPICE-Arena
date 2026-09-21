@@ -1,0 +1,5 @@
+# Inverter measurement contract
+TT, 27 C, VDD=1.8 V, VSS=0. Interface: `.subckt DUT IN OUT VDD VSS`.
+Use ordinary SKY130 1.8 V NMOS/PMOS X instances only. W=0.42..50 um, L=0.15..2 um, M=1. W/L are bare micrometre values. Connect PMOS bodies to VDD and NMOS bodies to VSS; IN may drive gates only. No internal sources, model includes, measurements or extra subcircuits. Topology and stage count are unrestricted, but output must invert.
+The testbench uses 100 fF output load and a 0..1.8 V pulse, with 10 ns delay, 1 ns edges, 99 ns high time and 200 ns period. Simulation ends at 620 ns with 5 ps maximum step. Delay uses 50% crossings; rise/fall use 10% and 90%. Repeated measurements take the worst value and require unique correctly directed crossings. DC sweep uses 2 mV steps. Noise margins use slope=-1 crossings and valid output levels.
+Static power is the larger DC endpoint supply power in uW. Dynamic power is average supply power over 210..610 ns, including static consumption. MOS area is sum(W*L) in um^2. All 13 metrics and functional checks must pass; thresholds are in tasks.json.

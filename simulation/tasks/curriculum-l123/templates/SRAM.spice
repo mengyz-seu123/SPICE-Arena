@@ -1,0 +1,10 @@
+.subckt DUT Q QB BL BLB WL VDD VSS
+* FORMAT ONLY: not an executable candidate. Replace placeholders with your design.
+* Choose device count, connections and parameters within the task contract.
+* MOS line format:
+* X<name> <drain> <gate> <source> <body> <model> W=<width_um> L=<length_um>
+* <model>: sky130_fd_pr__nfet_01v8 or sky130_fd_pr__pfet_01v8.
+* Connect PMOS bodies to VDD; NMOS bodies to VSS.
+* Implement the ordinary cross-coupled cell and access devices required by the contract.
+* Fill in the complete DUT here.
+.ends DUT

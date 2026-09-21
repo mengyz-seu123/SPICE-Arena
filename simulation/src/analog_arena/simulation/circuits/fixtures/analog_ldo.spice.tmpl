@@ -1,0 +1,27 @@
+* Analog LDO: DUT owns the error amplifier, pass device, bias and feedback.
+.lib {{PDK_LIB}} {{CORNER}}
+{{DUT}}
+VIN_SRC VIN 0 DC 1.8 PWL(0 0 200n 1.8)
+VREFSRC VREF 0 DC 0.6 PWL(0 0 200n 0.6)
+XDUT VIN 0 VREF VOUT DUT
+COUT VOUT 0 200p
+RLOAD VOUT 0 20k
+ILOAD VOUT 0 PULSE(0 50u 4u 20n 20n 3u 20u)
+.tran 5n 12u UIC
+.measure tran vout_light_v AVG v(VOUT) FROM=2u TO=3.5u
+.measure tran vout_heavy_v AVG v(VOUT) FROM=6u TO=6.8u
+.measure tran input_current_ua AVG par('-i(VIN_SRC)*1e6') FROM=2u TO=3.5u
+.control
+set wr_singlescale
+run
+setplot tran1
+wrdata ldo_wave.dat v(VOUT)
+dc VIN_SRC 1.39 1.81 0.01
+meas dc vout_1p4_v FIND v(VOUT) AT=1.4
+meas dc vout_1p8_v FIND v(VOUT) AT=1.8
+let line_regulation_mv_per_v = abs(vout_1p8_v-vout_1p4_v)*1e3/0.4
+print line_regulation_mv_per_v
+wrdata line_wave.dat v(VOUT)
+quit
+.endc
+.end

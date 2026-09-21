@@ -1,0 +1,26 @@
+* Trusted fixture: 3-bit DAC full-code transient sweep.
+.lib {{PDK_LIB}} {{CORNER}}
+{{DUT}}
+VSUP VDD 0 1.8
+VREFSRC VREF 0 1.8
+VB0 B0 0 PULSE(0 1.8 1u 5n 5n 0.99u 2u)
+VB1 B1 0 PULSE(0 1.8 2u 5n 5n 1.99u 4u)
+VB2 B2 0 PULSE(0 1.8 4u 5n 5n 3.99u 8u)
+XDUT VDD 0 B0 B1 B2 VREF VOUT DUT
+CLOAD VOUT 0 50f
+.tran 0.5n 8u 0 0.5n
+.measure tran code0_v FIND v(VOUT) AT=0.8u
+.measure tran code1_v FIND v(VOUT) AT=1.8u
+.measure tran code2_v FIND v(VOUT) AT=2.8u
+.measure tran code3_v FIND v(VOUT) AT=3.8u
+.measure tran code4_v FIND v(VOUT) AT=4.8u
+.measure tran code5_v FIND v(VOUT) AT=5.8u
+.measure tran code6_v FIND v(VOUT) AT=6.8u
+.measure tran code7_v FIND v(VOUT) AT=7.8u
+.control
+set wr_singlescale
+run
+wrdata dac_wave.dat v(VOUT)
+quit
+.endc
+.end

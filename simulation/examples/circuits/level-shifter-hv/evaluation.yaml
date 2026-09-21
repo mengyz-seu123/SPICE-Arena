@@ -1,0 +1,19 @@
+evaluator:
+  profile: sky130-generic
+  circuit: level-shifter-hv
+  analyses:
+  - transient
+  corners:
+  - TT
+  timeout_s: 180
+constraints:
+  rise_delay_ns:
+    max: 100.0
+  fall_delay_ns:
+    max: 100.0
+  vout_high_v:
+    min: 2.8
+  vout_low_v:
+    max: 0.3
+  power_mw:
+    max: 5.0

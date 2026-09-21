@@ -1,0 +1,16 @@
+.subckt INVLV A Y VDD VSS
+XN Y A VSS VSS sky130_fd_pr__nfet_01v8 W=0.84 L=0.15 M=1
+XP Y A VDD VDD sky130_fd_pr__pfet_01v8 W=1.68 L=0.15 M=1
+.ends INVLV
+.subckt INVHV A Y VDD VSS
+XN Y A VSS VSS sky130_fd_pr__nfet_g5v0d10v5 W=2 L=0.5 M=2
+XP Y A VDD VDD sky130_fd_pr__pfet_g5v0d10v5 W=4 L=0.5 M=2
+.ends INVHV
+.subckt DUT VDDL VDDH VSS IN OUT
+XINVB IN INB VDDL VSS INVLV
+XNL Q IN VSS VSS sky130_fd_pr__nfet_g5v0d10v5 W=5 L=0.5 M=4
+XNR QB INB VSS VSS sky130_fd_pr__nfet_g5v0d10v5 W=5 L=0.5 M=4
+XPL Q QB VDDH VDDH sky130_fd_pr__pfet_g5v0d10v5 W=2 L=0.5 M=1
+XPR QB Q VDDH VDDH sky130_fd_pr__pfet_g5v0d10v5 W=2 L=0.5 M=1
+XBUF Q OUT VDDH VSS INVHV
+.ends DUT

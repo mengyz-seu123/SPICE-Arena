@@ -1,0 +1,12 @@
+* Generic RC low-pass: no PDK, profile or DUT naming contract.
+Vin in 0 pulse(0 1 0 1n 1n 5u 10u)
+R1 in out 1k
+C1 out 0 1n
+.control
+set wr_singlescale
+set wr_vecnames
+tran 10n 4u
+meas tran output_at_3us find v(out) at=3u
+wrdata waveform.tsv v(out) v(in)
+.endc
+.end

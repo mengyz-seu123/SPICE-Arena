@@ -1,0 +1,13 @@
+{
+  "base_url": "http://127.0.0.1:8000/v1",
+  "model": "REPLACE_WITH_SERVED_MODEL_NAME",
+  "api_key_env": "",
+  "temperature": 1,
+  "max_tokens": 4096,
+  "read_timeout_s": 300,
+  "request_timeout_s": 1800,
+  "retries": 0,
+  "extra_body": {},
+  "send_reasoning_back": false,
+  "accept_length_with_content": true
+}

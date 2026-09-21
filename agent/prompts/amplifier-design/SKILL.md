@@ -1,0 +1,2 @@
+# Amplifier design
+Use the supplied OTA contract and task constraints. Choose all device dimensions and bias explicitly. Ensure a valid DC bias path, then inspect gain, bandwidth, signed phase margin, slew rate, settling, rejection ratios, power and area. Iterate using measured feedback. A candidate passes only when all required metrics are valid and satisfy the selected task in the same evaluation.

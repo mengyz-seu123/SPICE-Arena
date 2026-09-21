@@ -1,0 +1,5 @@
+.subckt DUT IN OUT VDD VSS
+* TOPOLOGY STARTING POINT ONLY: fill every W/L/M; you may add/remove devices or change connections.
+XP OUT IN VDD VDD sky130_fd_pr__pfet_01v8 W=<W> L=<L> M=<M>
+XN OUT IN VSS VSS sky130_fd_pr__nfet_01v8 W=<W> L=<L> M=<M>
+.ends DUT

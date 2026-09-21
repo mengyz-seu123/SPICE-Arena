@@ -1,0 +1,17 @@
+* Trusted fixture: odd three-stage logic chain.
+.lib {{PDK_LIB}} {{CORNER}}
+{{DUT}}
+VSUP VDD 0 1.8
+VIN A 0 PULSE(0 1.8 1n 50p 50p 4n 8n)
+XDUT VDD 0 A Y DUT
+CLOAD Y 0 20f
+.tran 2p 18n
+.measure tran tphl_raw_s TRIG v(A) VAL=0.9 RISE=1 TARG v(Y) VAL=0.9 FALL=1
+.measure tran tplh_raw_s TRIG v(A) VAL=0.9 FALL=1 TARG v(Y) VAL=0.9 RISE=1
+.measure tran tphl_ns PARAM='tphl_raw_s*1e9'
+.measure tran tplh_ns PARAM='tplh_raw_s*1e9'
+.measure tran output_for_input_high_v MIN v(Y) FROM=1.5n TO=4.5n
+.measure tran output_for_input_low_v MAX v(Y) FROM=5.5n TO=8.5n
+.measure tran vout_low_v MIN v(Y) FROM=1.5n TO=4.5n
+.measure tran vout_high_v MAX v(Y) FROM=5.5n TO=8.5n
+.end

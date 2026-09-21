@@ -1,0 +1,12 @@
+.subckt INV A Y VDD VSS
+XN Y A VSS VSS sky130_fd_pr__nfet_01v8 W=1.68 L=0.15 M=1
+XP Y A VDD VDD sky130_fd_pr__pfet_01v8 W=3.36 L=0.15 M=1
+.ends INV
+.subckt DUT VDD VSS VINP VINN VOUT
+XINP N1 VINP TAIL VSS sky130_fd_pr__nfet_01v8 W=4 L=0.5 M=3
+XINN N2 VINN TAIL VSS sky130_fd_pr__nfet_01v8 W=4 L=0.5 M=3
+XLOAD1 N1 N1 VDD VDD sky130_fd_pr__pfet_01v8 W=4 L=0.5 M=4
+XLOAD2 N2 N1 VDD VDD sky130_fd_pr__pfet_01v8 W=4 L=0.5 M=4
+RTAIL TAIL VSS 15k
+XBUF N2 VOUT VDD VSS INV
+.ends DUT
