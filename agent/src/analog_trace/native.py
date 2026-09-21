@@ -59,9 +59,8 @@ def run_native(out, client, task, model=None, local=False, max_evals=8, timeout_
     workspace.mkdir()
     prompt = f'''Work on circuit task {task} using the analog_arena MCP tools. First call doctor
 and task_context to read the latest exact specification and starting circuit.
-Read the selected task template and its device syntax examples.
-Choose every W/L/M explicitly; provide any other parameters required by this task.
-When available, prepare_candidate has no default values.
+For curriculum INV/OTA read the topology template and independent numeric device examples.
+Choose every W/L/M and OTA bias explicitly: prepare_candidate has no default values.
 You may add/remove devices or change topology; use lint_candidate for freely edited raw netlists;
 rejected preflight submissions do not consume candidate budget. Submit accepted
 candidates with evaluate_candidate, inspect evidence with read_artifact. At most

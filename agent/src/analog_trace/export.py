@@ -7,10 +7,7 @@ from pathlib import Path
 from .storage import digest, verify
 from .tasks import assess, rank
 from .trajectory import validate_trajectory
-try:
-    from analog_rl.reward import reward_from_result
-except ImportError:
-    reward_from_result = None
+reward_from_result = None  # No reward-training dependency in this source release.
 
 
 def export_run(root):

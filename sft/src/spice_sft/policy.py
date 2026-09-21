@@ -1,21 +1,12 @@
-"""Policy identity and checkpoint metadata.
-
-Every trajectory can record the exact policy that generated it.  Metadata is
-content-addressed and stored alongside checkpoints in ``policy.json``; no model
-framework is required for computing or validating the identity.
-"""
+"""Checkpoint identity for supervised training."""
 from __future__ import annotations
-
 import hashlib
 import json
 import os
-import platform
-import shutil
 import tempfile
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Mapping
-
 SCHEMA_VERSION = 1
 METADATA_FILE = "policy.json"
 
@@ -102,62 +93,3 @@ def save_policy_metadata(checkpoint: str | os.PathLike[str], metadata: PolicyMet
         if os.path.exists(tmp):
             os.unlink(tmp)
     return path
-
-
-def load_policy_metadata(checkpoint: str | os.PathLike[str]) -> PolicyMetadata:
-    path = Path(checkpoint) / METADATA_FILE
-    if not path.is_file():
-        raise FileNotFoundError(f"missing {METADATA_FILE} in {checkpoint}")
-    return PolicyMetadata.from_dict(json.loads(path.read_text(encoding="utf-8")))
-
-
-def verify_policy_metadata(checkpoint: str | os.PathLike[str], metadata: PolicyMetadata | None = None) -> bool:
-    metadata = load_policy_metadata(checkpoint) if metadata is None else metadata
-    actual = checkpoint_hash(checkpoint)
-    return not metadata.checkpoint_hash or actual == metadata.checkpoint_hash
-
-
-def policy_version(checkpoint: str | os.PathLike[str], model: str = "") -> str:
-    """Return the stable policy version recorded by a checkpoint."""
-    try:
-        return load_policy_metadata(checkpoint).policy_version
-    except FileNotFoundError:
-        return make_policy_metadata(model or Path(checkpoint).name, checkpoint).policy_version
-
-
-# Backwards-compatible descriptive aliases used by deployment adapters.
-save_checkpoint_metadata = save_policy_metadata
-load_checkpoint_metadata = load_policy_metadata
-
-
-class CheckpointManager:
-    """Save/load framework checkpoints while always writing policy identity."""
-    def __init__(self, root: str | os.PathLike[str]):
-        self.root = Path(root)
-        self.root.mkdir(parents=True, exist_ok=True)
-
-    def save(self, source: str | os.PathLike[str] | None = None, *, model: str,
-             tokenizer: str = "", trainer: str = "", step: int = 0,
-             parent_version: str | None = None, **extra: Any) -> tuple[Path, PolicyMetadata]:
-        source_path = Path(source) if source else None
-        # Build content first, then identity includes copied model files.
-        metadata = make_policy_metadata(model, source_path, tokenizer=tokenizer, trainer=trainer,
-                                        step=step, parent_version=parent_version, **extra)
-        target = self.root / metadata.policy_version[:16]
-        target.mkdir(parents=True, exist_ok=False)
-        if source_path and source_path.is_dir():
-            for item in source_path.iterdir():
-                if item.name == METADATA_FILE:
-                    continue
-                destination = target / item.name
-                shutil.copytree(item, destination) if item.is_dir() else shutil.copy2(item, destination)
-            metadata = make_policy_metadata(model, target, tokenizer=tokenizer, trainer=trainer,
-                                            step=step, parent_version=parent_version, **extra)
-        save_policy_metadata(target, metadata)
-        return target, metadata
-
-    def load(self, checkpoint: str | os.PathLike[str]) -> PolicyMetadata:
-        metadata = load_policy_metadata(checkpoint)
-        if not verify_policy_metadata(checkpoint, metadata):
-            raise ValueError("checkpoint contents do not match policy metadata")
-        return metadata

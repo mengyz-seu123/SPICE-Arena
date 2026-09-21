@@ -1,6 +1,5 @@
 from __future__ import annotations
 import json
-import copy
 import math
 import os
 from pathlib import Path
@@ -14,7 +13,6 @@ import yaml
 from .storage import digest
 from .tasks import ROOT, SIMULATION_ROOT, TASK_ROOT, CONTRACT, RELATION, task_config, assess, is_ota
 from .curriculum import TASK_IDS as CURRICULUM_IDS, DATA as CURRICULUM_DATA
-from .analogcoderpro import TASK_IDS as ANALOGCODERPRO_IDS
 
 
 def environment():
@@ -75,13 +73,6 @@ def snapshot(trace, task):
 
 
 def context(task):
-    if task in ANALOGCODERPRO_IDS:
-        from .analogcoderpro import context as analogcoderpro_context
-        result = analogcoderpro_context(task)
-        result['skills'] = {
-            'circuit-sim': (ROOT / 'agent/prompts/circuit-sim/SKILL.md').read_text(encoding='utf-8')
-        }
-        return result
     if task in CURRICULUM_IDS:
         from .curriculum import context as curriculum_context
         return curriculum_context(task)
@@ -291,11 +282,4 @@ TOOL_SCHEMAS += [
 
 def tool_schemas(task):
     from .submission import enabled
-    schemas = copy.deepcopy(TOOL_SCHEMAS if enabled(task) else [s for s in TOOL_SCHEMAS if s['function']['name'] not in {'lint_candidate', 'prepare_candidate'}])
-    for schema in schemas:
-        tool = schema['function']
-        tool['description'] = tool['description'].replace('Curriculum INV/OTA', 'This task').replace('curriculum INV/OTA', 'this task')
-        if not is_ota(task):
-            tool['parameters']['properties'].pop('ibias_uA', None)
-            tool['description'] = tool['description'].replace(' and explicit OTA ibias_uA', '').replace('raw netlist and bias', 'raw netlist')
-    return schemas
+    return TOOL_SCHEMAS if enabled(task) else [s for s in TOOL_SCHEMAS if s['function']['name'] not in {'lint_candidate', 'prepare_candidate'}]

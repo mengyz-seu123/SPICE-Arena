@@ -8,15 +8,6 @@ import subprocess
 from typing import Iterable
 
 from analog_arena.simulation.ngspice import default_ngspice, default_pdk, ngspice_run_command
-from .analogcoderpro import (MEASUREMENT_CONTRACT as ANALOGCODERPRO_CONTRACT,
-                             TASKS as ANALOGCODERPRO_TASKS,
-                             TASK_IDS as ANALOGCODERPRO_IDS,
-                             config as analogcoderpro_config,
-                             contract as analogcoderpro_contract,
-                             fixture as analogcoderpro_fixture,
-                             score_waveform as score_analogcoderpro,
-                             waveform_columns as analogcoderpro_columns,
-                             validate_topology)
 
 
 CONTRACTS = {
@@ -44,23 +35,10 @@ CONTRACTS = {
     },
 }
 
-for _task in ANALOGCODERPRO_IDS:
-    _config = analogcoderpro_config(_task)
-    _contract = analogcoderpro_contract(_task)
-    CONTRACTS[_task] = {
-        "profile": _config["evaluator"]["profile"],
-        "subcircuit": _contract["required_interface"],
-        "ports": _contract["required_interface"].split()[2:],
-        "metrics": _config["constraints"],
-        "testbench": _contract["testbench"],
-    }
-
 
 def contract(task: str) -> dict:
     if task not in CONTRACTS:
         raise ValueError("not a CMOS transient task")
-    if task in ANALOGCODERPRO_IDS:
-        return analogcoderpro_contract(task)
     value = json.loads(json.dumps(CONTRACTS[task]))
     value["task"] = task
     value["device_syntax"] = "Xname D G S B sky130_fd_pr__nfet_01v8|sky130_fd_pr__pfet_01v8 W=<um> L=<um> [M=<integer>]"
@@ -69,8 +47,6 @@ def contract(task: str) -> dict:
 
 def _deck(task: str, dut: str) -> str:
     pdk = default_pdk().as_posix()
-    if task in ANALOGCODERPRO_IDS:
-        return analogcoderpro_fixture(task, dut, default_pdk())
     common = f'''* Analog-Arena fixed {task} fixture
 .lib "{pdk}" tt
 VDD VDD 0 1.8
@@ -172,16 +148,6 @@ def evaluate(task: str, dut: str, output: Path, timeout_s: int = 180) -> dict:
     if ".subckt dut" not in dut.lower():
         raise ValueError("DUT must define the required .subckt DUT interface")
     output.mkdir(parents=True, exist_ok=False)
-    topology = validate_topology(task, dut) if task in ANALOGCODERPRO_IDS else None
-    if topology is not None and not topology["accepted"]:
-        metrics = {name: None for name in CONTRACTS[task]["metrics"]}
-        result = {"status": "INVALID", "profile": CONTRACTS[task]["profile"], "corners": {},
-                  "metrics": metrics, "metric_validity": _validity(metrics, "; ".join(topology["diagnostics"])),
-                  "error": "; ".join(topology["diagnostics"]), "topology_check": topology,
-                  "candidate_key": None, "command": None,
-                  "measurement_contract": ANALOGCODERPRO_CONTRACT, "spice_evaluations": 0}
-        (output / "result.json").write_text(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False) + "\n", encoding="utf-8")
-        return result
     deck = _deck(task, dut)
     (output / "tb.spice").write_text(deck, encoding="utf-8")
     command = ngspice_run_command(output, executable=default_ngspice())
@@ -192,25 +158,14 @@ def evaluate(task: str, dut: str, output: Path, timeout_s: int = 180) -> dict:
         log = (output / "ngspice.log").read_text(encoding="utf-8", errors="replace") if (output / "ngspice.log").is_file() else ""
         if run.returncode or "error" in log.lower() or not (output / "waveform.tsv").is_file():
             raise RuntimeError(log or run.stderr or run.stdout or "ngspice failed")
-        if task in ANALOGCODERPRO_IDS:
-            rows = _read_wave(output / "waveform.tsv", analogcoderpro_columns(task))
-            metrics = (_score_inverter(rows) if ANALOGCODERPRO_TASKS[task]["fixture"] == "inverter"
-                       else score_analogcoderpro(task, rows))
-        else:
-            rows = _read_wave(output / "waveform.tsv", 3 if task == "inverter" else 6)
-            metrics = _score_inverter(rows) if task == "inverter" else _score_sram(rows)
+        rows = _read_wave(output / "waveform.tsv", 3 if task == "inverter" else 6)
+        metrics = _score_inverter(rows) if task == "inverter" else _score_sram(rows)
         result = {"status": "VALID", "profile": CONTRACTS[task]["profile"], "corners": {"TT": {"status": "VALID"}},
                   "metrics": metrics, "metric_validity": _validity(metrics), "candidate_key": None,
                   "command": command, "samples": len(rows)}
-        if topology is not None:
-            result["topology_check"] = topology
     except (OSError, RuntimeError, ValueError, subprocess.TimeoutExpired) as exc:
         metrics = {name: None for name in CONTRACTS[task]["metrics"]}
         result = {"status": "INVALID", "profile": CONTRACTS[task]["profile"], "corners": {}, "metrics": metrics,
                   "metric_validity": _validity(metrics, str(exc)), "error": str(exc), "candidate_key": None, "command": command}
-    if topology is not None:
-        result.setdefault("topology_check", topology)
-        result["measurement_contract"] = ANALOGCODERPRO_CONTRACT
-        result["spice_evaluations"] = 1
     (output / "result.json").write_text(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False) + "\n", encoding="utf-8")
     return result

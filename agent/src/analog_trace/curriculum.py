@@ -39,7 +39,7 @@ def context(task):
         result.update(example_netlist=initial['netlist'], template_kind='topology_without_values',
                       template_revision=REVISION, workflow_revision=REVISION,
                       example_note='The starting topology preserves devices and connections without default dimensions or bias. Device examples illustrate syntax only. Topology edits are allowed; run lint_candidate afterward. Static acceptance does not establish simulation, functional or performance success.',
-                      device_syntax_examples=(DATA/f'{family}-device-syntax.md').read_text(encoding='utf-8'),
+                      device_syntax_examples=(DATA/'device-syntax.md').read_text(encoding='utf-8'),
                       topology_changes_allowed=True,
                       starter_parameters=initial['parameters'],
                       success_levels=['execution_valid','functional_valid','performance_passed'],

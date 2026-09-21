@@ -9,23 +9,27 @@ dependencies = [
   "requests>=2.32,<3",
 ]
 
+[project.optional-dependencies]
+sft = ["torch==2.13.0", "transformers==5.16.1"]
+
 [project.scripts]
 arena = "analog_arena.cli:main"
 analog-arena = "analog_arena.cli:main"
 arena-trace = "analog_trace.cli:main"
+arena-sft = "spice_sft.cli:main"
 
 [build-system]
 requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
-where = ["simulation/src", "agent/src", "rl/src"]
-include = ["analog_arena*", "analog_trace*", "analog_rl*"]
+where = ["simulation/src", "agent/src", "sft/src"]
+include = ["analog_arena*", "analog_trace*", "spice_sft*"]
 
 [tool.setuptools.package-dir]
 analog_arena = "simulation/src/analog_arena"
 analog_trace = "agent/src/analog_trace"
-analog_rl = "rl/src/analog_rl"
+spice_sft = "sft/src/spice_sft"
 
 [tool.setuptools.package-data]
 analog_arena = ["simulation/circuits/fixtures/*.spice.tmpl"]

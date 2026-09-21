@@ -1,12 +1,5 @@
-"""Token masks for supervised and policy-gradient training.
-
-The environment portions of a trajectory (system/user messages and tool
-observations) are context. Assistant text and tool calls are model actions. This
-module deliberately works with plain Python lists so importing the RL package
-never requires torch or transformers.
-"""
+"""Chat-template tokenization and assistant-only label masks."""
 from __future__ import annotations
-
 import copy
 import json
 from collections.abc import Mapping, Sequence
@@ -137,57 +130,6 @@ def conversation_tokens(messages: Sequence[Mapping[str, Any]], tokenizer: Any = 
     return tokens, mask
 
 
-def build_response_mask(input_ids: Sequence[Any], assistant_spans: Sequence[tuple[int, int]] | None = None,
-                        response_start: int | None = None, response_end: int | None = None) -> list[int]:
-    """Return a 0/1 mask for assistant response token positions.
-
-    ``assistant_spans`` uses half-open ``(start, end)`` offsets.  For a single
-    completion, ``response_start``/``response_end`` are convenient aliases.
-    No implicit ``all ones`` behavior is used: omitted spans produce zeros.
-    """
-    n = len(input_ids)
-    spans = list(assistant_spans or [])
-    if response_end is not None and response_start is None:
-        raise ValueError("response_end requires response_start")
-    if response_start is not None:
-        spans.append((response_start, n if response_end is None else response_end))
-    mask = [0] * n
-    for start, end in spans:
-        if not isinstance(start, int) or not isinstance(end, int) or not 0 <= start <= end <= n:
-            raise ValueError("response spans must be integer offsets within input ids")
-        for i in range(start, end):
-            mask[i] = 1
-    return mask
-
-
-def build_action_mask(input_ids: Sequence[Any], assistant_spans: Sequence[tuple[int, int]] | None = None,
-                      response_start: int | None = None, response_end: int | None = None) -> list[int]:
-    """Build the RL action mask; alias with policy-gradient terminology."""
-    return build_response_mask(input_ids, assistant_spans, response_start, response_end)
-
-
-def message_response_mask(messages: Sequence[Mapping[str, Any]], tokenizer: Any = None, **kwargs: Any) -> list[int]:
-    """Return assistant-only mask for a list of chat messages."""
-    return conversation_tokens(messages, tokenizer, **kwargs)[1]
-
-
-def response_mask(messages_or_ids: Sequence[Any], tokenizer: Any = None, **kwargs: Any) -> list[int]:
-    """Compatibility helper accepting either messages or token ids.
-
-    For messages, assistant roles are detected.  For ids, explicit spans must
-    be supplied via keyword arguments.
-    """
-    if messages_or_ids and isinstance(messages_or_ids[0], Mapping):
-        return message_response_mask(messages_or_ids, tokenizer, **kwargs)
-    return build_response_mask(messages_or_ids, **kwargs)
-
-
-def action_mask(messages_or_ids: Sequence[Any], tokenizer: Any = None, **kwargs: Any) -> list[int]:
-    if messages_or_ids and isinstance(messages_or_ids[0], Mapping):
-        return message_response_mask(messages_or_ids, tokenizer, **kwargs)
-    return build_action_mask(messages_or_ids, **kwargs)
-
-
 def masked_labels(input_ids: Sequence[int], mask: Sequence[int], ignore_index: int = -100) -> list[int]:
     """Create SFT labels with non-assistant/environment positions ignored."""
     if len(input_ids) != len(mask):
@@ -195,20 +137,3 @@ def masked_labels(input_ids: Sequence[int], mask: Sequence[int], ignore_index: i
     if any(value not in (0, 1) for value in mask):
         raise ValueError("token mask must be binary")
     return [int(token) if bool(keep) else ignore_index for token, keep in zip(input_ids, mask)]
-
-
-def masked_mean(values: Sequence[Any], mask: Sequence[Any], eps: float = 1e-12) -> Any:
-    """Mean over selected positions, returning zero for an empty mask."""
-    if len(values) != len(mask):
-        raise ValueError("values and mask must have equal lengths")
-    selected = [value for value, keep in zip(values, mask) if bool(keep)]
-    if not selected:
-        return 0.0
-    return sum(selected) / max(eps, len(selected))
-
-
-# Explicit names used by downstream integrations.
-response_token_mask = message_response_mask
-rl_action_mask = action_mask
-build_sft_response_mask = message_response_mask
-build_rl_action_mask = action_mask

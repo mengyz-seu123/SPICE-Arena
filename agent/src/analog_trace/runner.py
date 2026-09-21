@@ -17,11 +17,11 @@ Report only measured results and distinguish hypothesis from evidence. Briefly s
 the design change, expected trade-offs and failure interpretation for each experiment.
 Do not fabricate metrics. An execution status VALID alone is insufficient. All required
 metrics must be finite, individually valid, and pass for the SAME candidate. Every required functional check must also pass.
-Submit only the required DUT subcircuit and the parameters specified by the selected task and its tools.
+For OTA, ibias_uA is required. For inverter and SRAM, omit ibias_uA and submit only the required DUT subcircuit.
 You may read logs/waveforms with read_artifact and compare candidates, but do not
 combine metrics from different candidates. The provided example is not a passing design.
 Use tools for evaluations. After budget exhaustion summarize evidence and limitations.
-When the selected task provides a topology starting point, use it with all parameter values left for you to choose. Read the independent numeric device-syntax examples; they are not a complete design. You may change connections, add/remove devices or choose another topology. prepare_candidate requires every device W/L/M without defaults; supply any other parameters required by the selected task; use lint_candidate before submitting freely edited raw SPICE. Preflight rejection is not a simulator evaluation. Report execution, function and full performance separately.
+For curriculum INV/OTA, use the topology starting point with all parameter values left for you to choose. Read the independent numeric device-syntax examples; they are not a complete design. You may change connections, add/remove devices or choose another topology. prepare_candidate requires every device W/L/M and explicit OTA bias without defaults; use lint_candidate before submitting freely edited raw SPICE. Preflight rejection is not a simulator evaluation. Report execution, function and full performance separately.
 '''
 
 

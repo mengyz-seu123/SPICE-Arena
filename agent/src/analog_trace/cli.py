@@ -7,9 +7,8 @@ import sys
 from .tasks import AGENT_ROOT, assess, task_config, RELATION
 from .storage import Trace, seal, verify
 from .curriculum import TASK_IDS, RELATION as CURRICULUM_RELATION
-from .analogcoderpro import TASK_IDS as ANALOGCODERPRO_IDS
 
-ALL_TASK_IDS = list(TASK_IDS) + list(ANALOGCODERPRO_IDS) + ['ota', 'inverter', 'sram6t', 'task1', 'task2']
+ALL_TASK_IDS = list(TASK_IDS) + ['ota', 'inverter', 'sram6t', 'task1', 'task2']
 
 
 def positive(value):
@@ -89,7 +88,6 @@ def main(argv=None):
             code = 0 if result['ok'] else 2
         elif args.command == 'tasks':
             result = {'tasks': {name: task_config(name) for name in TASK_IDS}, 'count': len(TASK_IDS), 'relation': CURRICULUM_RELATION,
-                      'adapted_ids': list(ANALOGCODERPRO_IDS),
                       'legacy_ids': ['ota', 'inverter', 'sram6t', 'task1', 'task2']}
         elif args.command in {'run', 'probe'}:
             from .provider import ProviderConfig, ChatProvider

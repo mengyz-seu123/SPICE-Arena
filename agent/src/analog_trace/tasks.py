@@ -3,7 +3,6 @@ import copy
 import math
 from pathlib import Path
 from .curriculum import TASK_IDS as CURRICULUM_IDS
-from .analogcoderpro import TASK_IDS as ANALOGCODERPRO_IDS
 
 ROOT = Path(__file__).resolve().parents[3]
 SIMULATION_ROOT = ROOT / 'simulation'
@@ -30,9 +29,6 @@ RELATION = 'Task1 is stricter: its feasible set is a subset of task2.'
 
 
 def task_config(task):
-    if task in ANALOGCODERPRO_IDS:
-        from .analogcoderpro import config
-        return config(task)
     if task in CURRICULUM_IDS:
         from .curriculum import config
         return config(task)
@@ -46,7 +42,7 @@ def task_config(task):
         return {'evaluator': {'profile': CONTRACTS[task]['profile'], 'analyses': ['transient'], 'corners': ['TT'], 'timeout_s': 180},
                 'objectives': {}, 'constraints': copy.deepcopy(CONTRACTS[task]['metrics'])}
     if task not in TARGETS:
-        raise ValueError('unknown task')
+        raise ValueError('task must be ota, inverter, sram6t, task1, or task2')
     return {'evaluator': {'profile': 'sky130-ota', 'analyses': ['op', 'ac', 'transient', 'rejection'],
                           'corners': ['TT'], 'timeout_s': 180},
             'objectives': {k: 'max' for k in TARGETS[task]},
@@ -76,14 +72,7 @@ def assess(result, task):
     candidate = result.get('candidate_key')
     functional_valid = True
     relation = RELATION
-    if task in ANALOGCODERPRO_IDS:
-        from .analogcoderpro import RELATION as analogcoderpro_relation
-        topology = result.get('topology_check') or {}
-        functional_valid = bool(status_valid and topology.get('accepted') is True
-                                and all((validity.get(name) or {}).get('valid') is True
-                                        for name in task_config(task)['constraints']))
-        relation = analogcoderpro_relation
-    elif task in CURRICULUM_IDS:
+    if task in CURRICULUM_IDS:
         from .curriculum import CONTRACT as curriculum_contract, RELATION as curriculum_relation
         from analog_arena.curriculum.common import required_functional_checks
         fc = result.get('functional_checks')
