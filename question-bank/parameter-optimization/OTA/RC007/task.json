@@ -1,0 +1,65 @@
+{
+  "task_id": "ST2-OTA-P03",
+  "public_id": "RC007",
+  "family": "OTA",
+  "layer": "L1",
+  "constraints": {
+    "gain_db": {
+      "min": 30
+    },
+    "gbw_mhz": {
+      "min": 0.2
+    },
+    "sr_min_v_per_us": {
+      "min": 0.1
+    },
+    "pm_deg": {
+      "min": 40
+    },
+    "power_mw": {
+      "max": 3.0
+    },
+    "area_score": {
+      "max": 400.0
+    },
+    "cmrr_db": {
+      "min": 10.0
+    },
+    "psrr_plus_db": {
+      "min": 10.0
+    },
+    "psrr_minus_db": {
+      "min": 10.0
+    }
+  },
+  "predicate": {
+    "kind": "relative",
+    "metric": "gbw_mhz",
+    "direction": "max",
+    "fraction": 0.05,
+    "absolute_delta": 0.01,
+    "guards": {
+      "probe_gain_vv": {
+        "min": 1.0
+      },
+      "probe_vout_v": {
+        "min": 0.05,
+        "max": 1.75
+      }
+    },
+    "protect_previously_passed_core": true
+  },
+  "ibias_uA": 10.0,
+  "starter": "starter.spice",
+  "previous": null,
+  "dependency": null,
+  "max_evals": 6,
+  "source_group_id": "authored-training-ota-20260919-v3",
+  "split": "train",
+  "origin": "independently_authored_uncalibrated_start",
+  "calibration": "not_performed",
+  "ready": true,
+  "semantics": "collection-v3; filled sizing starts; actual symptoms from initial measurement",
+  "author_title": "Improve insufficient GBW near the phase-margin limit",
+  "starter_sha256": "3aa700f1b747b3f22822d744f1be611a5051bddb810231a7473a30c7477e6f42"
+}

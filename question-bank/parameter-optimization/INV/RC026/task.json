@@ -1,0 +1,61 @@
+{
+  "task_id": "ST2-INV-P02",
+  "public_id": "RC026",
+  "family": "INV",
+  "layer": "L1",
+  "constraints": {
+    "voh_v": {
+      "min": 1.5
+    },
+    "vol_v": {
+      "max": 0.3
+    },
+    "tpd_max_ns": {
+      "max": 0.8
+    },
+    "power_static_uw": {
+      "max": 50.0
+    },
+    "power_dynamic_uw": {
+      "max": 80.0
+    },
+    "area_mos_um2": {
+      "max": 20.0
+    },
+    "tphl_ns": {
+      "max": 0.8
+    },
+    "tplh_ns": {
+      "max": 0.8
+    }
+  },
+  "predicate": {
+    "kind": "relative",
+    "metric": "tplh_ns",
+    "direction": "min",
+    "fraction": 0.05,
+    "absolute_delta": 0.01,
+    "guards": {
+      "probe_high_v": {
+        "min": 1.5
+      },
+      "probe_low_v": {
+        "max": 0.3
+      }
+    },
+    "protect_previously_passed_core": true
+  },
+  "ibias_uA": null,
+  "starter": "starter.spice",
+  "previous": null,
+  "dependency": null,
+  "max_evals": 6,
+  "source_group_id": "authored-training-inv-20260919-v3",
+  "split": "train",
+  "origin": "independently_authored_uncalibrated_start",
+  "calibration": "not_performed",
+  "ready": true,
+  "semantics": "collection-v3; filled sizing starts; actual symptoms from initial measurement",
+  "author_title": "Improve rising-edge delay",
+  "starter_sha256": "b3e1c33b540d0ab5fd3ef1c33bd4f9ef02b37d7ae2f1c94bb9b2666c38e1e26d"
+}

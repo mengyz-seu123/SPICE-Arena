@@ -1,0 +1,52 @@
+{
+  "task_id": "ST2-OTA-S02",
+  "public_id": "RC020",
+  "family": "OTA",
+  "layer": "L1",
+  "constraints": {
+    "gain_db": {
+      "min": 30
+    },
+    "gbw_mhz": {
+      "min": 0.2
+    },
+    "sr_min_v_per_us": {
+      "min": 0.1
+    },
+    "pm_deg": {
+      "min": 40
+    },
+    "power_mw": {
+      "max": 3.0
+    },
+    "area_score": {
+      "max": 400.0
+    },
+    "cmrr_db": {
+      "min": 10.0
+    },
+    "psrr_plus_db": {
+      "min": 10.0
+    },
+    "psrr_minus_db": {
+      "min": 10.0
+    }
+  },
+  "predicate": {
+    "kind": "select_full_pass",
+    "guards": {}
+  },
+  "ibias_uA": 10.0,
+  "starter": "starter.spice",
+  "previous": null,
+  "dependency": "passing_candidate",
+  "max_evals": 4,
+  "source_group_id": "authored-training-ota-20260919-v3",
+  "split": "train",
+  "origin": "independently_authored_uncalibrated_start",
+  "calibration": "not_performed",
+  "ready": false,
+  "semantics": "collection-v3; filled sizing starts; actual symptoms from initial measurement",
+  "author_title": "Retain the best previously passing candidate",
+  "starter_sha256": "c6cb72fda75202482ed3340fee01c4bb3df2cf7ccc5d7e1699260956991e25d3"
+}

@@ -1,0 +1,37 @@
+{
+  "task_id": "TR2-CMP-C02",
+  "public_id": "RC078",
+  "family": "CMP",
+  "layer": "L2c",
+  "constraints": {
+    "out_high_v": {
+      "min": 1.4
+    },
+    "out_low_v": {
+      "max": 0.4
+    },
+    "decision_delay_ns": {
+      "max": 80
+    },
+    "power_mw": {
+      "max": 1.0
+    }
+  },
+  "predicate": {
+    "kind": "full",
+    "guards": {}
+  },
+  "ibias_uA": null,
+  "starter": "starter.spice",
+  "previous": null,
+  "dependency": "student_failure",
+  "max_evals": 12,
+  "source_group_id": "authored-training-cmp-20260919-v3",
+  "split": "train",
+  "origin": "independently_authored_uncalibrated_start",
+  "calibration": "not_performed",
+  "ready": false,
+  "semantics": "collection-v3; filled sizing starts; actual symptoms from initial measurement",
+  "author_title": "Recover from a student decision failure in one direction",
+  "starter_sha256": "554c8b194e17b2345a0118f7ab5659b1e54b17e8cc321ab70c6c1a71b50b2b39"
+}

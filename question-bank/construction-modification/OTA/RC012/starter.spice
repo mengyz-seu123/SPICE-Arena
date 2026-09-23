@@ -1,0 +1,8 @@
+.subckt OTA VDD GND VINP VINN VOUT IBIAS
+XP1 N1 VINP NT VDD sky130_fd_pr__pfet_01v8 W=8 L=1 M=2
+XP2 VOUT VINN NT VDD sky130_fd_pr__pfet_01v8 W=8 L=1 M=2
+XPT NT IBIAS VDD VDD sky130_fd_pr__pfet_01v8 W=8 L=1 M=2
+XPR IBIAS IBIAS VDD VDD sky130_fd_pr__pfet_01v8 W=8 L=1 M=1
+XN1 N1 N1 GND GND sky130_fd_pr__nfet_01v8 W=8 L=1 M=1
+XN2 VOUT N1 GND GND sky130_fd_pr__nfet_01v8 W=8 L=1 M=1
+.ends OTA

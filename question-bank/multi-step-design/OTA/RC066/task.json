@@ -1,0 +1,52 @@
+{
+  "task_id": "TR2-OTA-C02",
+  "public_id": "RC066",
+  "family": "OTA",
+  "layer": "L2c",
+  "constraints": {
+    "gain_db": {
+      "min": 30
+    },
+    "gbw_mhz": {
+      "min": 0.2
+    },
+    "sr_min_v_per_us": {
+      "min": 0.1
+    },
+    "pm_deg": {
+      "min": 40
+    },
+    "power_mw": {
+      "max": 3.0
+    },
+    "area_score": {
+      "max": 400.0
+    },
+    "cmrr_db": {
+      "min": 10.0
+    },
+    "psrr_plus_db": {
+      "min": 10.0
+    },
+    "psrr_minus_db": {
+      "min": 10.0
+    }
+  },
+  "predicate": {
+    "kind": "full",
+    "guards": {}
+  },
+  "ibias_uA": 10.0,
+  "starter": "starter.spice",
+  "previous": null,
+  "dependency": "student_failure",
+  "max_evals": 12,
+  "source_group_id": "authored-training-ota-20260919-v3",
+  "split": "train",
+  "origin": "independently_authored_uncalibrated_start",
+  "calibration": "not_performed",
+  "ready": false,
+  "semantics": "collection-v3; filled sizing starts; actual symptoms from initial measurement",
+  "author_title": "Recover from a failed student state and stop on success",
+  "starter_sha256": "c10c09e66a61a9a00d10fd4299e7d50b830e1d2d25e2b5dfb37fee677e08c26f"
+}

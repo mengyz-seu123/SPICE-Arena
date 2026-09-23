@@ -1,0 +1,52 @@
+{
+  "task_id": "TR2-OTA-C01",
+  "public_id": "RC065",
+  "family": "OTA",
+  "layer": "L2c",
+  "constraints": {
+    "gain_db": {
+      "min": 30
+    },
+    "gbw_mhz": {
+      "min": 0.2
+    },
+    "sr_min_v_per_us": {
+      "min": 0.1
+    },
+    "pm_deg": {
+      "min": 40
+    },
+    "power_mw": {
+      "max": 3.0
+    },
+    "area_score": {
+      "max": 400.0
+    },
+    "cmrr_db": {
+      "min": 10.0
+    },
+    "psrr_plus_db": {
+      "min": 10.0
+    },
+    "psrr_minus_db": {
+      "min": 10.0
+    }
+  },
+  "predicate": {
+    "kind": "full",
+    "guards": {}
+  },
+  "ibias_uA": 10.0,
+  "starter": "starter.spice",
+  "previous": null,
+  "dependency": null,
+  "max_evals": 12,
+  "source_group_id": "authored-training-ota-20260919-v3",
+  "split": "train",
+  "origin": "independently_authored_uncalibrated_start",
+  "calibration": "not_performed",
+  "ready": true,
+  "semantics": "collection-v3; filled sizing starts; actual symptoms from initial measurement",
+  "author_title": "Coordinate compensation and speed after improving gain",
+  "starter_sha256": "bc84b28065af4f2fa7fcb7f324d350f058dfcfda76cb3a20815ededc9effd610"
+}

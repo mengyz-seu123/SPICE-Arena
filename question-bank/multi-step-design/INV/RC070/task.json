@@ -1,0 +1,49 @@
+{
+  "task_id": "TR2-INV-B02",
+  "public_id": "RC070",
+  "family": "INV",
+  "layer": "L2b",
+  "constraints": {
+    "voh_v": {
+      "min": 1.5
+    },
+    "vol_v": {
+      "max": 0.3
+    },
+    "tpd_max_ns": {
+      "max": 0.8
+    },
+    "power_static_uw": {
+      "max": 50.0
+    },
+    "power_dynamic_uw": {
+      "max": 80.0
+    },
+    "area_mos_um2": {
+      "max": 20.0
+    },
+    "tphl_ns": {
+      "max": 0.8
+    },
+    "tplh_ns": {
+      "max": 0.8
+    }
+  },
+  "predicate": {
+    "kind": "full",
+    "guards": {}
+  },
+  "ibias_uA": null,
+  "starter": "starter.spice",
+  "previous": null,
+  "dependency": null,
+  "max_evals": 12,
+  "source_group_id": "authored-training-inv-20260919-v3",
+  "split": "train",
+  "origin": "independently_authored_uncalibrated_start",
+  "calibration": "not_performed",
+  "ready": true,
+  "semantics": "collection-v3; filled sizing starts; actual symptoms from initial measurement",
+  "author_title": "Complete the intermediate stage and restore drive",
+  "starter_sha256": "ee55940b8e09a5b6f69f946f694e663fa5fea20217a20f05e2750714365e7f0d"
+}

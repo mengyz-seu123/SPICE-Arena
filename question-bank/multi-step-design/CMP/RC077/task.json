@@ -1,0 +1,37 @@
+{
+  "task_id": "TR2-CMP-C01",
+  "public_id": "RC077",
+  "family": "CMP",
+  "layer": "L2c",
+  "constraints": {
+    "out_high_v": {
+      "min": 1.4
+    },
+    "out_low_v": {
+      "max": 0.4
+    },
+    "decision_delay_ns": {
+      "max": 80
+    },
+    "power_mw": {
+      "max": 1.0
+    }
+  },
+  "predicate": {
+    "kind": "full",
+    "guards": {}
+  },
+  "ibias_uA": null,
+  "starter": "starter.spice",
+  "previous": null,
+  "dependency": null,
+  "max_evals": 12,
+  "source_group_id": "authored-training-cmp-20260919-v3",
+  "split": "train",
+  "origin": "independently_authored_uncalibrated_start",
+  "calibration": "not_performed",
+  "ready": true,
+  "semantics": "collection-v3; filled sizing starts; actual symptoms from initial measurement",
+  "author_title": "Correct bias, output levels, and delay through multiple steps",
+  "starter_sha256": "1f6acdedb026b90edb2f10cff792fd2940ccf20e4808c2d47e15ca8c572ca6cb"
+}

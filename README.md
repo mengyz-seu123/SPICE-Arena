@@ -10,6 +10,7 @@ SPICE-Arena connects language-model agents to ngspice, evaluates candidate circu
 - `agent/src/analog_trace/`: model providers, agent loop, MCP tools, candidate validation, trace export and reporting.
 - `sft/src/spice_sft/`: SFT data preparation, chat-template masks and supervised training.
 - `simulation/tasks/`: task constraints, interfaces and topology templates.
+- `question-bank/`: 78 paper subtasks for OTA, INV and CMP, organized into four categories; definitions and starting circuits only.
 - `simulation/examples/`: small netlists and evaluation configurations.
 - `agent/prompts/`: concise English instructions loaded by the agent.
 
@@ -67,6 +68,21 @@ arena-trace run --task INV-L1-D01 \
 For a remote provider, edit the placeholder URL and model in `agent/configs/openai-compatible.json`, set `OPENAI_API_KEY` in your environment, and pass that config instead. Never place credentials in tracked files. Use a new output directory for each run. Windows users can enter multiline examples as one line.
 
 Source entry points are also available as `python agent/trace.py --help` and `python sft/sft.py --help`. See `arena-trace --help` for MCP, evaluation and trace commands.
+
+## Paper question bank
+
+The [question bank](question-bank/README.md) contains 26 definitions per circuit
+family (OTA, INV, CMP). Within each family there are 6 construction/modification,
+8 diagnosis/repair, 6 parameter-optimization, and 6 multi-step design tasks.
+Browse the [task index](question-bank/INDEX.md) or load
+[manifest.json](question-bank/manifest.json) for file paths and category labels.
+
+Each definition includes its starting netlist, constraints, acceptance predicate,
+and candidate budget. Twelve tasks require measured failed or passing candidates
+at runtime; those historical inputs are not bundled. This catalog is separate
+from the legacy executable curriculum below: RC IDs are not registered with
+`arena-trace tasks`, and the original recovery-task runner/verifier is not part
+of this minimal release. No experiment records or training samples are included.
 
 ## Task and evaluation semantics
 

@@ -1,0 +1,49 @@
+{
+  "task_id": "ST2-INV-S02",
+  "public_id": "RC040",
+  "family": "INV",
+  "layer": "L1",
+  "constraints": {
+    "voh_v": {
+      "min": 1.5
+    },
+    "vol_v": {
+      "max": 0.3
+    },
+    "tpd_max_ns": {
+      "max": 0.8
+    },
+    "power_static_uw": {
+      "max": 50.0
+    },
+    "power_dynamic_uw": {
+      "max": 80.0
+    },
+    "area_mos_um2": {
+      "max": 20.0
+    },
+    "tphl_ns": {
+      "max": 0.8
+    },
+    "tplh_ns": {
+      "max": 0.8
+    }
+  },
+  "predicate": {
+    "kind": "select_full_pass",
+    "guards": {}
+  },
+  "ibias_uA": null,
+  "starter": "starter.spice",
+  "previous": null,
+  "dependency": "passing_candidate",
+  "max_evals": 4,
+  "source_group_id": "authored-training-inv-20260919-v3",
+  "split": "train",
+  "origin": "independently_authored_uncalibrated_start",
+  "calibration": "not_performed",
+  "ready": false,
+  "semantics": "collection-v3; filled sizing starts; actual symptoms from initial measurement",
+  "author_title": "Select a previously passing inverter",
+  "starter_sha256": "1ec4da500172d83af69c49608bc2f07ea023fbc0448bc8fabdf5a3e97b975008"
+}

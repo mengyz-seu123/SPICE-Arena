@@ -1,0 +1,52 @@
+{
+  "task_id": "TR2-OTA-B01",
+  "public_id": "RC063",
+  "family": "OTA",
+  "layer": "L2b",
+  "constraints": {
+    "gain_db": {
+      "min": 30
+    },
+    "gbw_mhz": {
+      "min": 0.2
+    },
+    "sr_min_v_per_us": {
+      "min": 0.1
+    },
+    "pm_deg": {
+      "min": 40
+    },
+    "power_mw": {
+      "max": 3.0
+    },
+    "area_score": {
+      "max": 400.0
+    },
+    "cmrr_db": {
+      "min": 10.0
+    },
+    "psrr_plus_db": {
+      "min": 10.0
+    },
+    "psrr_minus_db": {
+      "min": 10.0
+    }
+  },
+  "predicate": {
+    "kind": "full",
+    "guards": {}
+  },
+  "ibias_uA": 10.0,
+  "starter": "starter.spice",
+  "previous": null,
+  "dependency": null,
+  "max_evals": 12,
+  "source_group_id": "authored-training-ota-20260919-v3",
+  "split": "train",
+  "origin": "independently_authored_uncalibrated_start",
+  "calibration": "not_performed",
+  "ready": true,
+  "semantics": "collection-v3; filled sizing starts; actual symptoms from initial measurement",
+  "author_title": "Increase gain from a weak active-load stage",
+  "starter_sha256": "26ddf0d00f2dcf01ba608220dee021bb11615b04da1b5c83399887202ae4aa3d"
+}

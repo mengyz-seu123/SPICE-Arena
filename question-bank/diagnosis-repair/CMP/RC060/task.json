@@ -1,0 +1,37 @@
+{
+  "task_id": "ST2-CMP-S02",
+  "public_id": "RC060",
+  "family": "CMP",
+  "layer": "L1",
+  "constraints": {
+    "out_high_v": {
+      "min": 1.4
+    },
+    "out_low_v": {
+      "max": 0.4
+    },
+    "decision_delay_ns": {
+      "max": 80
+    },
+    "power_mw": {
+      "max": 1.0
+    }
+  },
+  "predicate": {
+    "kind": "select_full_pass",
+    "guards": {}
+  },
+  "ibias_uA": null,
+  "starter": "starter.spice",
+  "previous": null,
+  "dependency": "passing_candidate",
+  "max_evals": 4,
+  "source_group_id": "authored-training-cmp-20260919-v3",
+  "split": "train",
+  "origin": "independently_authored_uncalibrated_start",
+  "calibration": "not_performed",
+  "ready": false,
+  "semantics": "collection-v3; filled sizing starts; actual symptoms from initial measurement",
+  "author_title": "Select a previously passing comparator",
+  "starter_sha256": "37f1a5e2ac006a26715fa8cf301f41d7b94d7357b7ac6d1504485058c7e541a0"
+}

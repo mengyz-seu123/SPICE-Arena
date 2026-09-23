@@ -1,0 +1,64 @@
+{
+  "task_id": "ST2-OTA-T02",
+  "public_id": "RC012",
+  "family": "OTA",
+  "layer": "L1",
+  "constraints": {
+    "gain_db": {
+      "min": 30
+    },
+    "gbw_mhz": {
+      "min": 0.2
+    },
+    "sr_min_v_per_us": {
+      "min": 0.1
+    },
+    "pm_deg": {
+      "min": 40
+    },
+    "power_mw": {
+      "max": 3.0
+    },
+    "area_score": {
+      "max": 400.0
+    },
+    "cmrr_db": {
+      "min": 10.0
+    },
+    "psrr_plus_db": {
+      "min": 10.0
+    },
+    "psrr_minus_db": {
+      "min": 10.0
+    }
+  },
+  "predicate": {
+    "kind": "restore",
+    "guards": {
+      "probe_gain_vv": {
+        "min": 1.0
+      },
+      "probe_vout_v": {
+        "min": 0.05,
+        "max": 1.75
+      },
+      "gain_db": {
+        "min": 20
+      }
+    },
+    "must_improve_or_recover": true
+  },
+  "ibias_uA": 10.0,
+  "starter": "starter.spice",
+  "previous": null,
+  "dependency": null,
+  "max_evals": 6,
+  "source_group_id": "authored-training-ota-20260919-v3",
+  "split": "train",
+  "origin": "independently_authored_uncalibrated_start",
+  "calibration": "not_performed",
+  "ready": true,
+  "semantics": "collection-v3; filled sizing starts; actual symptoms from initial measurement",
+  "author_title": "Add a second gain stage",
+  "starter_sha256": "26ddf0d00f2dcf01ba608220dee021bb11615b04da1b5c83399887202ae4aa3d"
+}

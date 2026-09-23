@@ -1,0 +1,45 @@
+{
+  "task_id": "ST2-CMP-T01",
+  "public_id": "RC051",
+  "family": "CMP",
+  "layer": "L1",
+  "constraints": {
+    "out_high_v": {
+      "min": 1.4
+    },
+    "out_low_v": {
+      "max": 0.4
+    },
+    "decision_delay_ns": {
+      "max": 80
+    },
+    "power_mw": {
+      "max": 1.0
+    }
+  },
+  "predicate": {
+    "kind": "restore",
+    "guards": {
+      "probe_high_v": {
+        "min": 1.4
+      },
+      "probe_low_v": {
+        "max": 0.4
+      }
+    },
+    "must_improve_or_recover": true
+  },
+  "ibias_uA": null,
+  "starter": "starter.spice",
+  "previous": null,
+  "dependency": null,
+  "max_evals": 6,
+  "source_group_id": "authored-training-cmp-20260919-v3",
+  "split": "train",
+  "origin": "independently_authored_uncalibrated_start",
+  "calibration": "not_performed",
+  "ready": true,
+  "semantics": "collection-v3; filled sizing starts; actual symptoms from initial measurement",
+  "author_title": "Build an output stage from a preamplifier",
+  "starter_sha256": "0ab43479a26f6d5e1996bd61da6738db99cdd1761dfd750ac88818a8d7bee652"
+}
